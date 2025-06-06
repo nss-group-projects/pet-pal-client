@@ -2,7 +2,6 @@
 
 import { createContext, useState, useEffect, useContext } from 'react';
 import { getCurrentUser } from '../services/authService';
-import Cookies from 'js-cookie';
 
 // Create the context
 const AuthContext = createContext();
@@ -22,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         const userData = await getCurrentUser();
 
         // If we got user data, set the user
-        if (userData) {
+        if ("id" in userData) {
           setUser(userData);
         }
       } catch (err) {
