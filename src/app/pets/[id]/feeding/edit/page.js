@@ -6,6 +6,7 @@ import { useAuth } from '../../../../../contexts/AuthContext';
 import { getPetById } from '../../../../../services/petService';
 import { createHealthRecord } from '../../../../../services/healthRecordService';
 import Navbar from '../../../../../components/Navbar';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import FeatureErrorBoundary from '../../../../../components/FeatureErrorBoundary';
 import { Container, Heading, Text, Flex, Card, TextField, Button, Box, Grid, Select, TextArea } from '@radix-ui/themes';
 
@@ -43,10 +44,6 @@ export default function EditFeedingSchedule() {
 
   // Check if user is authenticated and fetch pet data
   useEffect(() => {
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
 
     const fetchPet = async () => {
       try {
@@ -322,8 +319,10 @@ export default function EditFeedingSchedule() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="EditFeedingSchedule">
-      {editFeedingScheduleContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="EditFeedingSchedule">
+        {editFeedingScheduleContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

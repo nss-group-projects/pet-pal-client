@@ -32,7 +32,7 @@ const Navbar = () => {
         zIndex: 10
       }}
     >
-      <Flex align="center" gap="4">
+      <Flex align="center" gap="9">
         <Link href="/" passHref>
           <Text size="5" weight="bold" style={{ cursor: 'pointer' }}>
             PetPal
@@ -40,7 +40,7 @@ const Navbar = () => {
         </Link>
 
         {user && (
-          <Flex gap="4">
+          <Flex gap="7">
             <Link href="/pets" passHref>
               <Text style={{ cursor: 'pointer' }}>My Pets</Text>
             </Link>
@@ -52,9 +52,6 @@ const Navbar = () => {
             </Link>
             <Link href="/care-providers" passHref>
               <Text style={{ cursor: 'pointer' }}>Care Providers</Text>
-            </Link>
-            <Link href="/dashboard" passHref>
-              <Text style={{ cursor: 'pointer' }}>Dashboard</Text>
             </Link>
           </Flex>
         )}

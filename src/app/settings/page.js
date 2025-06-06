@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import Navbar from '../../components/Navbar';
 import FeatureErrorBoundary from '../../components/FeatureErrorBoundary';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, Button, Box, Tabs, Switch, RadioGroup, Separator } from '@radix-ui/themes';
 
 export default function Settings() {
@@ -36,11 +37,6 @@ export default function Settings() {
 
   // Check if user is authenticated
   useEffect(() => {
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch user settings
     const fetchSettings = async () => {
       try {
@@ -412,9 +408,11 @@ export default function Settings() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="Settings">
-      {settingsContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="Settings">
+        {settingsContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }
 

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import { getUserPets } from '../../services/petService';
 import Navbar from '../../components/Navbar';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import FeatureErrorBoundary from '../../components/FeatureErrorBoundary';
 import { Container, Heading, Text, Flex, Card, Button, Box, Checkbox, Select, RadioGroup } from '@radix-ui/themes';
 import { FiDownload, FiFile, FiFileText, FiFilePlus } from 'react-icons/fi';
@@ -35,12 +36,6 @@ export default function ExportRecords() {
   const [customEndDate, setCustomEndDate] = useState('');
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch user's pets
     const fetchPets = async () => {
       try {
@@ -412,8 +407,10 @@ export default function ExportRecords() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="ExportRecords">
-      {exportContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="ExportRecords">
+        {exportContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

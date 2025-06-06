@@ -7,6 +7,7 @@ import { getPetById } from '../../../../../services/petService';
 import { createHealthRecord } from '../../../../../services/healthRecordService';
 import Navbar from '../../../../../components/Navbar';
 import FeatureErrorBoundary from '../../../../../components/FeatureErrorBoundary';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, TextField, Button, Box, Grid, Select } from '@radix-ui/themes';
 
 export default function AddWeightRecord() {
@@ -35,11 +36,6 @@ export default function AddWeightRecord() {
 
   // Check if user is authenticated and fetch pet data
   useEffect(() => {
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     const fetchPet = async () => {
       try {
         const petData = await getPetById(petId);
@@ -210,8 +206,10 @@ export default function AddWeightRecord() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="AddWeightRecord">
-      {addWeightRecordContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="AddWeightRecord">
+        {addWeightRecordContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

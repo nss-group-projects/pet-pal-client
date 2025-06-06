@@ -7,6 +7,7 @@ import { getUserPets } from '../../services/petService';
 import { getUserAppointments } from '../../services/appointmentService';
 import Navbar from '../../components/Navbar';
 import FeatureErrorBoundary from '../../components/FeatureErrorBoundary';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, Button, Box, Grid, Avatar, Tabs } from '@radix-ui/themes';
 import Link from 'next/link';
 import { FiCalendar, FiClock, FiAlertCircle } from 'react-icons/fi';
@@ -20,12 +21,6 @@ export default function Dashboard() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch user's pets and upcoming events
     const fetchDashboardData = async () => {
       try {
@@ -305,8 +300,10 @@ export default function Dashboard() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="Dashboard">
-      {dashboardContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="Dashboard">
+        {dashboardContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

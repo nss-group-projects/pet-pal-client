@@ -6,6 +6,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { getAppointmentById, deleteAppointment } from '../../../services/appointmentService';
 import Navbar from '../../../components/Navbar';
 import FeatureErrorBoundary from '../../../components/FeatureErrorBoundary';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, Button, Box, Badge, Dialog, IconButton } from '@radix-ui/themes';
 import Link from 'next/link';
 import { FiEdit2, FiTrash2, FiArrowLeft, FiCalendar, FiClock, FiUser, FiMapPin } from 'react-icons/fi';
@@ -22,12 +23,6 @@ export default function AppointmentDetails() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch appointment details
     const fetchAppointment = async () => {
       try {
@@ -242,9 +237,11 @@ export default function AppointmentDetails() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="AppointmentDetails">
-      {appointmentDetailsContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="AppointmentDetails">
+        {appointmentDetailsContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }
 

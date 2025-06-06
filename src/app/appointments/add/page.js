@@ -6,6 +6,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { createAppointment } from '../../../services/appointmentService';
 import { getUserPets } from '../../../services/petService';
 import Navbar from '../../../components/Navbar';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import FeatureErrorBoundary from '../../../components/FeatureErrorBoundary';
 import { Container, Heading, Text, Flex, Card, Button, Box, TextField, Select, TextArea } from '@radix-ui/themes';
 import { FiArrowLeft, FiCalendar, FiClock } from 'react-icons/fi';
@@ -33,12 +34,6 @@ export default function AddAppointment() {
   const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch user's pets and veterinarians
     const fetchData = async () => {
       try {
@@ -336,8 +331,10 @@ export default function AddAppointment() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="AddAppointment">
-      {addAppointmentContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="AddAppointment">
+        {addAppointmentContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

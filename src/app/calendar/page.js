@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import Navbar from '../../components/Navbar';
 import FeatureErrorBoundary from '../../components/FeatureErrorBoundary';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, Button, Box, Tabs, Select } from '@radix-ui/themes';
 import { FiCalendar, FiClock, FiAlertCircle, FiActivity } from 'react-icons/fi';
 
@@ -19,12 +20,6 @@ export default function Calendar() {
   const [filterType, setFilterType] = useState('all');
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch events
     const fetchEvents = async () => {
       try {
@@ -392,8 +387,10 @@ export default function Calendar() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="Calendar">
-      {calendarContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="Calendar">
+        {calendarContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

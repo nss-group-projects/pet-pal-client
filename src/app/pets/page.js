@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { getUserPets } from '../../services/petService';
 import Navbar from '../../components/Navbar';
 import FeatureErrorBoundary from '../../components/FeatureErrorBoundary';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, Button, Box, Grid, Avatar } from '@radix-ui/themes';
 import Link from 'next/link';
 
@@ -17,12 +18,6 @@ export default function Pets() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch user's pets
     const fetchPets = async () => {
       try {
@@ -102,8 +97,10 @@ export default function Pets() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="Pets">
-      {petsContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="Pets">
+        {petsContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

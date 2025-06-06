@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '../../../../../contexts/AuthContext';
 import { getPetById } from '../../../../../services/petService';
 import { createHealthRecord } from '../../../../../services/healthRecordService';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import Navbar from '../../../../../components/Navbar';
 import FeatureErrorBoundary from '../../../../../components/FeatureErrorBoundary';
 import { Container, Heading, Text, Flex, Card, TextField, Button, Box, Grid, Select, TextArea, Checkbox } from '@radix-ui/themes';
@@ -61,11 +62,6 @@ export default function AddMedication() {
 
   // Check if user is authenticated and fetch pet data
   useEffect(() => {
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     const fetchPet = async () => {
       try {
         const petData = await getPetById(petId);
@@ -413,8 +409,10 @@ export default function AddMedication() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="AddMedication">
-      {addMedicationContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="AddMedication">
+        {addMedicationContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

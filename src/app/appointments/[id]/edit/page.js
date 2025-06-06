@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '../../../../contexts/AuthContext';
 import { getAppointmentById, updateAppointment } from '../../../../services/appointmentService';
 import { getUserPets } from '../../../../services/petService';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import Navbar from '../../../../components/Navbar';
 import FeatureErrorBoundary from '../../../../components/FeatureErrorBoundary';
 import { Container, Heading, Text, Flex, Card, Button, Box, TextField, Select, TextArea } from '@radix-ui/themes';
@@ -36,13 +37,6 @@ export default function EditAppointment() {
   const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
-    // Fetch appointment, user's pets, and veterinarians
     const fetchData = async () => {
       try {
         // Fetch appointment details
@@ -402,8 +396,10 @@ export default function EditAppointment() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="EditAppointment">
-      {editAppointmentContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="EditAppointment">
+        {editAppointmentContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }

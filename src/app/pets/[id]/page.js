@@ -7,6 +7,7 @@ import { getPetById, updatePet, deletePet } from '../../../services/petService';
 import { getPetAppointments } from '../../../services/appointmentService';
 import Navbar from '../../../components/Navbar';
 import FeatureErrorBoundary from '../../../components/FeatureErrorBoundary';
+import ProtectedRoute from '../../../components/ProtectedRoute';
 import { Container, Grid, Heading, Text, Flex, Card, Button, Box, Tabs, Avatar, Dialog, IconButton } from '@radix-ui/themes';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 
@@ -23,12 +24,6 @@ export default function PetDetails() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch pet details and appointments
     const fetchPetData = async () => {
       try {
@@ -359,9 +354,11 @@ export default function PetDetails() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="PetDetails">
-      {petDetailsContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="PetDetails">
+        {petDetailsContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }
 

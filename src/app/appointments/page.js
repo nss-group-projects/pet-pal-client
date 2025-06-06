@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { getUserAppointments, getAllAppointments } from '../../services/appointmentService';
 import Navbar from '../../components/Navbar';
 import FeatureErrorBoundary from '../../components/FeatureErrorBoundary';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, Button, Box, Tabs, Table, Badge } from '@radix-ui/themes';
 import Link from 'next/link';
 import { FiPlus, FiCalendar, FiClock, FiEdit2, FiTrash2 } from 'react-icons/fi';
@@ -18,12 +19,6 @@ export default function Appointments() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch appointments based on user role
     const fetchAppointments = async () => {
       try {
@@ -157,9 +152,11 @@ export default function Appointments() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="Appointments">
-      {appointmentsContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="Appointments">
+        {appointmentsContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }
 

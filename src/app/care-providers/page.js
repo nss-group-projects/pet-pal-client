@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import Navbar from '../../components/Navbar';
+import ProtectedRoute from '../../components/ProtectedRoute';
 import FeatureErrorBoundary from '../../components/FeatureErrorBoundary';
 import { Container, Heading, Text, Flex, Card, Button, Box, Grid, Dialog, TextField, TextArea, Select } from '@radix-ui/themes';
 import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
@@ -39,12 +40,6 @@ export default function CareProviders() {
   ];
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!user) {
-      router.push('/auth/login');
-      return;
-    }
-
     // Fetch care providers
     const fetchProviders = async () => {
       try {
@@ -498,8 +493,10 @@ export default function CareProviders() {
   );
 
   return (
-    <FeatureErrorBoundary featureName="CareProviders">
-      {careProvidersContent}
-    </FeatureErrorBoundary>
+    <ProtectedRoute>
+      <FeatureErrorBoundary featureName="CareProviders">
+        {careProvidersContent}
+      </FeatureErrorBoundary>
+    </ProtectedRoute>
   );
 }
