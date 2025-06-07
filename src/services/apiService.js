@@ -11,8 +11,12 @@ const handleResponse = async (response) => {
   // Check if the response is ok (status in the range 200-299)
   if (!response.ok) {
     // If the response is 401 Unauthorized, redirect to login
+    // But only if we're not already on the login page
     if (response.status === 401) {
-      window.location.href = '/auth/login';
+      // Check if we're already on the login page to prevent redirect loops
+      if (!window.location.pathname.includes('/auth/login')) {
+        window.location.href = '/auth/login';
+      }
       return null;
     }
 

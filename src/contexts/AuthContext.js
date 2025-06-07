@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         const userData = await getCurrentUser();
 
         // If we got user data, set the user
-        if ("id" in userData) {
+        if (userData && "id" in userData) {
           setUser(userData);
         }
       } catch (err) {

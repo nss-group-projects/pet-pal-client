@@ -110,7 +110,7 @@ export default function Appointments() {
               <Box pt="4">
                 <Tabs.Content value="upcoming">
                   <AppointmentsList
-                    appointments={appointments.filter(apt => new Date(apt.date) >= new Date())}
+                    appointments={appointments.filter(apt => new Date(apt.appointmentDate) >= new Date())}
                     router={router}
                     formatDate={formatDate}
                     formatTime={formatTime}
@@ -122,7 +122,7 @@ export default function Appointments() {
 
                 <Tabs.Content value="past">
                   <AppointmentsList
-                    appointments={appointments.filter(apt => new Date(apt.date) < new Date())}
+                    appointments={appointments.filter(apt => new Date(apt.appointmentDate) < new Date())}
                     router={router}
                     formatDate={formatDate}
                     formatTime={formatTime}
@@ -194,8 +194,8 @@ function AppointmentsList({ appointments, router, formatDate, formatTime, getSta
         <Table.Body>
           {appointments.map((appointment) => (
             <Table.Row key={appointment.id}>
-              <Table.Cell>{formatDate(appointment.date)}</Table.Cell>
-              <Table.Cell>{formatTime(appointment.time)}</Table.Cell>
+              <Table.Cell>{formatDate(appointment.appointmentDate)}</Table.Cell>
+              <Table.Cell>{formatTime(appointment.appointmentTime)}</Table.Cell>
               <Table.Cell>
                 <Link href={`/pets/${appointment.petId}`} style={{ textDecoration: 'none' }}>
                   {appointment.petName}

@@ -5,10 +5,10 @@ import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '../../../../contexts/AuthContext';
 import { getAppointmentById, updateAppointment } from '../../../../services/appointmentService';
 import { getUserPets } from '../../../../services/petService';
-import ProtectedRoute from '../../components/ProtectedRoute';
+import ProtectedRoute from '../../../../components/ProtectedRoute';
 import Navbar from '../../../../components/Navbar';
 import FeatureErrorBoundary from '../../../../components/FeatureErrorBoundary';
-import { Container, Heading, Text, Flex, Card, Button, Box, TextField, Select, TextArea } from '@radix-ui/themes';
+import { Container, Heading, Text, Flex, Card, Button, Box, TextField, Select, TextArea } from '@radix-ui/themes'
 import { FiArrowLeft, FiCalendar, FiClock } from 'react-icons/fi';
 
 export default function EditAppointment() {
@@ -24,7 +24,6 @@ export default function EditAppointment() {
     reason: '',
     notes: '',
     veterinarianId: '',
-    location: '',
     status: 'Scheduled'
   });
 
@@ -46,12 +45,11 @@ export default function EditAppointment() {
         // Set form data from appointment
         setFormData({
           petId: appointmentData.petId?.toString() || '',
-          date: appointmentData.date || '',
-          time: appointmentData.time || '',
-          reason: appointmentData.reason || '',
+          appointmentDate: appointmentData.appointmentDate.split('T')[0] || '',
+          appointmentTime: appointmentData.appointmentTime || '',
+          appointmentType: appointmentData.appointmentType || '',
           notes: appointmentData.notes || '',
           veterinarianId: appointmentData.veterinarianId?.toString() || '',
-          location: appointmentData.location || '',
           status: appointmentData.status || 'Scheduled'
         });
 
@@ -90,7 +88,7 @@ export default function EditAppointment() {
     if (isVeterinarian() && originalAppointment.veterinarianId === user.id) return true;
 
     // Pet owners can modify their pets' appointments
-    if (originalAppointment.ownerId === user.id) return true;
+    if (originalAppointment.isOwner) return true;
 
     return false;
   };
@@ -138,9 +136,9 @@ export default function EditAppointment() {
     const errors = {};
 
     if (!formData.petId) errors.petId = 'Please select a pet';
-    if (!formData.date) errors.date = 'Please select a date';
-    if (!formData.time) errors.time = 'Please select a time';
-    if (!formData.reason) errors.reason = 'Please provide a reason for the appointment';
+    if (!formData.appointmentDate) errors.appointmentDate = 'Please select a date';
+    if (!formData.appointmentTime) errors.appointmentTime = 'Please select a time';
+    if (!formData.appointmentType) errors.appointmentType = 'Please provide a reason for the appointment';
     if (!formData.veterinarianId) errors.veterinarianId = 'Please select a veterinarian';
     if (!formData.status) errors.status = 'Please select a status';
 
@@ -210,10 +208,10 @@ export default function EditAppointment() {
                       <Select.Trigger placeholder="Select a pet" />
                       <Select.Content>
                         {pets.length === 0 ? (
-                          <Select.Item value="">No pets available</Select.Item>
+                          <Select.Item value="0">No pets available</Select.Item>
                         ) : (
                           <>
-                            <Select.Item value="">Select a pet</Select.Item>
+                            <Select.Item value="0">Select a pet</Select.Item>
                             {pets.map(pet => (
                               <Select.Item key={pet.id} value={pet.id.toString()}>
                                 {pet.name}
@@ -234,18 +232,16 @@ export default function EditAppointment() {
                         Date *
                       </Text>
                       <Flex align="center" gap="2">
-                        <TextField.Root style={{ flex: 1 }}>
-                          <TextField.Input
+                        <TextField.Root style={{ flex: 1 }}
                             type="date"
-                            name="date"
-                            value={formData.date}
+                            name="appointmentDate"
+                            value={formData.appointmentDate}
                             onChange={handleDateChange}
                           />
-                        </TextField.Root>
                         <FiCalendar />
                       </Flex>
-                      {formErrors.date && (
-                        <Text color="red" size="1">{formErrors.date}</Text>
+                      {formErrors.appointmentDate && (
+                        <Text color="red" size="1">{formErrors.appointmentDate}</Text>
                       )}
                     </Box>
 
@@ -254,19 +250,17 @@ export default function EditAppointment() {
                         Time *
                       </Text>
                       <Flex align="center" gap="2">
-                        <TextField.Root style={{ flex: 1 }}>
-                          <TextField.Input
+                        <TextField.Root style={{ flex: 1 }}
                             type="time"
-                            name="time"
-                            value={formData.time}
+                            name="appointmentTime"
+                            value={formData.appointmentTime}
                             onChange={handleChange}
                             placeholder="Select time"
                           />
-                        </TextField.Root>
                         <FiClock />
                       </Flex>
-                      {formErrors.time && (
-                        <Text color="red" size="1">{formErrors.time}</Text>
+                      {formErrors.appointmentTime && (
+                        <Text color="red" size="1">{formErrors.appointmentTime}</Text>
                       )}
                     </Box>
                   </Flex>
@@ -288,7 +282,7 @@ export default function EditAppointment() {
                     >
                       <Select.Trigger placeholder="Select a veterinarian" />
                       <Select.Content>
-                        <Select.Item value="">Select a veterinarian</Select.Item>
+                        <Select.Item value="0">Select a veterinarian</Select.Item>
                         {veterinarians.map(vet => (
                           <Select.Item key={vet.id} value={vet.id.toString()}>
                             {vet.name}
@@ -302,33 +296,17 @@ export default function EditAppointment() {
                   </Box>
 
                   <Box>
-                    <Text as="label" size="2" weight="bold" htmlFor="location">
-                      Location
-                    </Text>
-                    <TextField.Root>
-                      <TextField.Input
-                        name="location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        placeholder="Enter location"
-                      />
-                    </TextField.Root>
-                  </Box>
-
-                  <Box>
-                    <Text as="label" size="2" weight="bold" htmlFor="reason">
+                    <Text as="label" size="2" weight="bold" htmlFor="appointmentType">
                       Reason for Visit *
                     </Text>
-                    <TextField.Root>
-                      <TextField.Input
-                        name="reason"
-                        value={formData.reason}
+                    <TextField.Root
+                        name="appointmentType"
+                        value={formData.appointmentType}
                         onChange={handleChange}
                         placeholder="Enter reason for visit"
                       />
-                    </TextField.Root>
-                    {formErrors.reason && (
-                      <Text color="red" size="1">{formErrors.reason}</Text>
+                    {formErrors.appointmentType && (
+                      <Text color="red" size="1">{formErrors.appointmentType}</Text>
                     )}
                   </Box>
 

@@ -6,7 +6,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { createAppointment } from '../../../services/appointmentService';
 import { getUserPets } from '../../../services/petService';
 import Navbar from '../../../components/Navbar';
-import ProtectedRoute from '../../components/ProtectedRoute';
+import ProtectedRoute from '../../../components/ProtectedRoute';
 import FeatureErrorBoundary from '../../../components/FeatureErrorBoundary';
 import { Container, Heading, Text, Flex, Card, Button, Box, TextField, Select, TextArea } from '@radix-ui/themes';
 import { FiArrowLeft, FiCalendar, FiClock } from 'react-icons/fi';
@@ -17,12 +17,11 @@ export default function AddAppointment() {
 
   const [formData, setFormData] = useState({
     petId: '',
-    date: '',
-    time: '',
-    reason: '',
+    appointmentDate: '',
+    appointmentTime: '',
+    appointmentType: '',
     notes: '',
     veterinarianId: '',
-    location: '',
     status: 'Scheduled'
   });
 
@@ -95,14 +94,14 @@ export default function AddAppointment() {
     const { value } = e.target;
     setFormData(prev => ({
       ...prev,
-      date: value
+      appointmentDate: value
     }));
 
     // Clear error for this field if it exists
-    if (formErrors.date) {
+    if (formErrors.appointmentDate) {
       setFormErrors(prev => ({
         ...prev,
-        date: ''
+        appointmentDate: ''
       }));
     }
   };
@@ -111,9 +110,9 @@ export default function AddAppointment() {
     const errors = {};
 
     if (!formData.petId) errors.petId = 'Please select a pet';
-    if (!formData.date) errors.date = 'Please select a date';
-    if (!formData.time) errors.time = 'Please select a time';
-    if (!formData.reason) errors.reason = 'Please provide a reason for the appointment';
+    if (!formData.appointmentDate) errors.appointmentDate = 'Please select a date';
+    if (!formData.appointmentTime) errors.appointmentTime = 'Please select a time';
+    if (!formData.appointmentType) errors.appointmentType = 'Please provide a reason for the appointment';
     if (!formData.veterinarianId) errors.veterinarianId = 'Please select a veterinarian';
 
     setFormErrors(errors);
@@ -201,19 +200,19 @@ export default function AddAppointment() {
 
                   <Flex gap="4">
                     <Box style={{ flex: 1 }}>
-                      <Text as="label" size="2" weight="bold" htmlFor="date">
+                      <Text as="label" size="2" weight="bold" htmlFor="appointmentDate">
                         Date *
                       </Text>
                       <Flex align="center" gap="2">
                         <TextField.Root style={{ flex: 1 }}
                             type="date"
-                            name="date"
-                            value={formData.date}
+                            name="appointmentDate"
+                            value={formData.appointmentDate}
                             onChange={handleDateChange} />
                         <FiCalendar />
                       </Flex>
-                      {formErrors.date && (
-                        <Text color="red" size="1">{formErrors.date}</Text>
+                      {formErrors.appointmentDate && (
+                        <Text color="red" size="1">{formErrors.appointmentDate}</Text>
                       )}
                     </Box>
 
@@ -224,15 +223,15 @@ export default function AddAppointment() {
                       <Flex align="center" gap="2">
                         <TextField.Root style={{ flex: 1 }}
                             type="time"
-                            name="time"
-                            value={formData.time}
+                            name="appointmentTime"
+                            value={formData.appointmentTime}
                             onChange={handleChange}
                             placeholder="Select time"
                           />
                         <FiClock />
                       </Flex>
-                      {formErrors.time && (
-                        <Text color="red" size="1">{formErrors.time}</Text>
+                      {formErrors.appointmentTime && (
+                        <Text color="red" size="1">{formErrors.appointmentTime}</Text>
                       )}
                     </Box>
                   </Flex>
@@ -268,29 +267,17 @@ export default function AddAppointment() {
                   </Box>
 
                   <Box>
-                    <Text as="label" size="2" weight="bold" htmlFor="location">
-                      Location
-                    </Text>
-                    <TextField.Root
-                        name="location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        placeholder="Enter location"
-                      />
-                  </Box>
-
-                  <Box>
-                    <Text as="label" size="2" weight="bold" htmlFor="reason">
+                    <Text as="label" size="2" weight="bold" htmlFor="appointmentType">
                       Reason for Visit *
                     </Text>
                     <TextField.Root
-                        name="reason"
-                        value={formData.reason}
+                        name="appointmentType"
+                        value={formData.appointmentType}
                         onChange={handleChange}
                         placeholder="Enter reason for visit"
                       />
-                    {formErrors.reason && (
-                      <Text color="red" size="1">{formErrors.reason}</Text>
+                    {formErrors.appointmentType && (
+                      <Text color="red" size="1">{formErrors.appointmentType}</Text>
                     )}
                   </Box>
 

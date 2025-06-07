@@ -6,7 +6,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { getAppointmentById, deleteAppointment } from '../../../services/appointmentService';
 import Navbar from '../../../components/Navbar';
 import FeatureErrorBoundary from '../../../components/FeatureErrorBoundary';
-import ProtectedRoute from '../../components/ProtectedRoute';
+import ProtectedRoute from '../../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, Button, Box, Badge, Dialog, IconButton } from '@radix-ui/themes';
 import Link from 'next/link';
 import { FiEdit2, FiTrash2, FiArrowLeft, FiCalendar, FiClock, FiUser, FiMapPin } from 'react-icons/fi';
@@ -156,12 +156,12 @@ export default function AppointmentDetails() {
                   <InfoItem
                     icon={<FiCalendar />}
                     label="Date"
-                    value={formatDate(appointment.date)}
+                    value={formatDate(appointment.appointmentDate)}
                   />
                   <InfoItem
                     icon={<FiClock />}
                     label="Time"
-                    value={appointment.time || 'N/A'}
+                    value={appointment.appointmentTime || 'N/A'}
                   />
                   <InfoItem
                     icon={<FiUser />}
