@@ -8,8 +8,8 @@ import { getPetAppointments } from '../../../services/appointmentService';
 import Navbar from '../../../components/Navbar';
 import FeatureErrorBoundary from '../../../components/FeatureErrorBoundary';
 import ProtectedRoute from '../../../components/ProtectedRoute';
-import { Container, Grid, Heading, Text, Flex, Card, Button, Box, Tabs, Avatar, Dialog, IconButton } from '@radix-ui/themes';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { Container, Grid, Badge, Heading, Text, Flex, Card, Button, Box, Tabs, Avatar, Dialog, IconButton } from '@radix-ui/themes';
+import { FiEdit2, FiTrash2, FiCalendar } from 'react-icons/fi';
 
 export default function PetDetails() {
   const { user } = useAuth();

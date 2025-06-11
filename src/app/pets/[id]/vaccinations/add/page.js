@@ -7,7 +7,7 @@ import { getPetById } from '../../../../../services/petService';
 import { createHealthRecord } from '../../../../../services/healthRecordService';
 import Navbar from '../../../../../components/Navbar';
 import FeatureErrorBoundary from '../../../../../components/FeatureErrorBoundary';
-import ProtectedRoute from '../../components/ProtectedRoute';
+import ProtectedRoute from '../../../../../components/ProtectedRoute';
 import { Container, Heading, Text, Flex, Card, TextField, Button, Box, Grid, Select, TextArea } from '@radix-ui/themes';
 
 export default function AddVaccination() {
