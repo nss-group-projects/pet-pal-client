@@ -47,3 +47,5 @@ context_portal/
 check-errors.js
 UI+Kit.png
 STUDENT_TICKETS.md
+generate_issues*
+requirements.txt
