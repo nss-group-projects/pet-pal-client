@@ -25,7 +25,7 @@ export default function Login() {
     try {
       const userData = await login({ email, password });
       authLogin(userData);
-      router.push('/pets');
+      router.push('/');
     } catch (err) {
       console.error('Login error:', err);
       setError('Invalid email or password. Please try again.');
