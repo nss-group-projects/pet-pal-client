@@ -53,73 +53,21 @@ PetPal is a comprehensive pet management application designed to help pet owners
 ### Installation
 
 1. Clone the repository
-```bash
-git clone https://github.com/your-username/petpal.git
-cd petpal/client
-```
-
 2. Install dependencies
-```bash
-npm install
-# or
-yarn install
-```
-
+    ```bash
+    npm install
+    ```
 3. Start the development server
-```bash
-npm run dev
-# or
-yarn dev
-```
+    ```bash
+    npm run dev
+    ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ### Backend Setup
 The client application requires a backend API running at `http://localhost:5000`. See the backend repository for setup instructions.
 
-## 🛠️ Technology Stack
-
-### Frontend
-- **Framework**: [Next.js](https://nextjs.org/) (React framework)
-- **UI Components**: [Radix UI](https://www.radix-ui.com/)
-- **Form Handling**: [React Hook Form](https://react-hook-form.com/)
-- **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
-- **Authentication**: JWT with HTTP-only cookies
-
-### Development Tools
-- **Package Manager**: npm/yarn
-- **Linting**: ESLint
-- **Build Tool**: Turbopack (Next.js)
-
-## 📁 Project Structure
-
-```
-client/
-├── public/            # Static assets
-├── src/
-│   ├── app/           # Next.js app router pages
-│   ├── components/    # Reusable UI components
-│   ├── contexts/      # React contexts (Auth, etc.)
-│   ├── hooks/         # Custom React hooks
-│   ├── services/      # API service functions
-│   ├── styles/        # Global styles
-│   └── utils/         # Utility functions
-├── .gitignore
-├── eslint.config.mjs  # ESLint configuration
-├── jsconfig.json      # JavaScript configuration
-├── next.config.mjs    # Next.js configuration
-├── package.json       # Dependencies and scripts
-└── README.md          # Project documentation
-```
-
-## 🔒 Authentication
-
-PetPal uses a secure authentication system with:
-- JWT tokens stored in HTTP-only cookies
-- Protected routes requiring authentication
-- Role-based access control (Admin, Veterinarian, Pet Owner)
-
-## 🧩 Key Components
+## Key Components
 
 ### AuthContext
 Provides authentication state and functions throughout the application:
@@ -140,43 +88,6 @@ Components that restrict access to authenticated users only, redirecting unauthe
 
 ### Error Boundaries
 Components that catch JavaScript errors and display fallback UI to prevent the entire application from crashing.
-
-## Testing
-
-Run the test suite with:
-```bash
-npm test
-# or
-yarn test
-```
-
-## Deployment
-
-The application can be built for production using:
-```bash
-npm run build
-# or
-yarn build
-```
-
-Then start the production server:
-```bash
-npm start
-# or
-yarn start
-```
-
-For optimal deployment, we recommend using [Vercel](https://vercel.com), which is designed for Next.js applications.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## License
 
